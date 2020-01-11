@@ -13,6 +13,13 @@
           inactive-value="visible"></el-switch>
       </el-form-item>
 
+      <el-form-item label="删除">
+        <el-switch
+          v-model="css.display"
+          active-value="none"
+          @change="handleDisplayChange"></el-switch>
+      </el-form-item>
+
       <el-form-item
         label="宽度">
         <el-input
@@ -42,6 +49,9 @@
       <el-form-item label="边框">
         <el-select
           v-model="css.borderStyle">
+          <el-option value="none" label="无边框">
+            无边框
+          </el-option>
           <el-option value="solid" label="边框1">
             <div class="center-line" style="border: 1px solid;"></div>
           </el-option>
@@ -79,6 +89,7 @@
       </el-form-item>
       <el-form-item label="边框圆角">
         <el-select v-model="css.borderRadius">
+          <el-option value="0" label="无圆角">无圆角</el-option>
           <el-option value="3px" label="小小圆角">小小圆角</el-option>
           <el-option value="5px" label="小圆角">小圆角</el-option>
           <el-option value="10px" label="中圆角">中圆角</el-option>
@@ -94,8 +105,42 @@
           v-model="css.backgroundColor"></el-color-picker>
       </el-form-item>
 
-      <el-form-item label="内边距">
-        <el-select v-model="css.padding">
+      <el-form-item label="上边距">
+        <el-select v-model="css.paddingTop">
+          <el-option value="0" label="无边距">无边距</el-option>
+          <el-option value="5px" label="5像素">5像素</el-option>
+          <el-option value="10px" label="10像素">10像素</el-option>
+          <el-option value="15px" label="15像素">15像素</el-option>
+          <el-option value="20px" label="20像素">20像素</el-option>
+          <el-option value="30px" label="30像素">30像素</el-option>
+          <el-option value="50px" label="50像素">50像素</el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="下边距">
+        <el-select v-model="css.paddingBottom">
+          <el-option value="0" label="无边距">无边距</el-option>
+          <el-option value="5px" label="5像素">5像素</el-option>
+          <el-option value="10px" label="10像素">10像素</el-option>
+          <el-option value="15px" label="15像素">15像素</el-option>
+          <el-option value="20px" label="20像素">20像素</el-option>
+          <el-option value="30px" label="30像素">30像素</el-option>
+          <el-option value="50px" label="50像素">50像素</el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="左边距">
+        <el-select v-model="css.paddingLeft">
+          <el-option value="0" label="无边距">无边距</el-option>
+          <el-option value="5px" label="5像素">5像素</el-option>
+          <el-option value="10px" label="10像素">10像素</el-option>
+          <el-option value="15px" label="15像素">15像素</el-option>
+          <el-option value="20px" label="20像素">20像素</el-option>
+          <el-option value="30px" label="30像素">30像素</el-option>
+          <el-option value="50px" label="50像素">50像素</el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="右边距">
+        <el-select v-model="css.paddingRight">
+          <el-option value="0" label="无边距">无边距</el-option>
           <el-option value="5px" label="5像素">5像素</el-option>
           <el-option value="10px" label="10像素">10像素</el-option>
           <el-option value="15px" label="15像素">15像素</el-option>
@@ -143,6 +188,11 @@ export default {
   methods: {
     toNumber (val) {
       return parseInt(val)
+    },
+    handleDisplayChange (val) {
+      if (!val) {
+        delete this.css.display
+      }
     }
   }
 }
