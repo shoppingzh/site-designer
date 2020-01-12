@@ -23,6 +23,10 @@
           :style="site.header && site.header.navbar ? site.header.navbar.css : null">
           <el-menu-item index="0">首页</el-menu-item>
           <el-menu-item index="1">课程概要</el-menu-item>
+          <el-menu-item index="2">课程简介</el-menu-item>
+          <el-menu-item index="3">课程资源</el-menu-item>
+          <el-menu-item index="4">在线作业</el-menu-item>
+          <el-menu-item index="5">在线考试</el-menu-item>
         </el-menu>
       </el-header>
       <el-main v-if="site.main" class="main" :style="site.main.css">
@@ -62,7 +66,8 @@
       :visible.sync="designing"
       :modal="false"
       size="35%"
-      class="designer-panel">
+      class="designer-panel"
+      @closed="handleDrawerClosed">
       <template v-if="designer === null">
         <el-tree
           default-expand-all
@@ -155,12 +160,22 @@ export default {
     },
     handleFastApply (node) {
       node.data.css = Object.assign(node.data.css, this.designer.css)
+    },
+    handleDrawerClosed () {
+      if (this.site) {
+        this.$localStorage.set('site', JSON.stringify(this.site))
+      }
     }
   },
   mounted () {
-    this.axios.get('site.json').then((resp) => {
-      this.site = resp.data
-    }).catch(() => {})
+    const site = this.$localStorage.get('site')
+    if (site) {
+      this.site = JSON.parse(site)
+    } else {
+      this.axios.get('site.json').then((resp) => {
+        this.site = resp.data
+      }).catch(() => {})
+    }
   }
 }
 </script>
@@ -184,4 +199,15 @@ export default {
 .panel{ box-sizing: border-box; border: 1px solid rgb(189, 206, 224); overflow: hidden; }
 .panel .panel-head{ min-height: 35px; border-bottom: 1px solid rgb(189, 206, 224); padding: 0 5px; font-size: 16px; color: #666;  }
 .panel .panel-body{ min-height: 120px; }
+
+/* 动画 */
+.slide-enter-active{ transition: 3s all; }
+.slide-enter-to{ transform: translateX(100px); }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
